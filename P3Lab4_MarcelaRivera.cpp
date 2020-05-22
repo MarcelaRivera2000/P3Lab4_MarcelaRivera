@@ -15,6 +15,7 @@ class persona{
 		string nombre,apellido,contra;
 		vector<string> mensajes;
 		string m;
+		int lla=0+rand()%(15-0);
 	public: 
 		persona(string nombre,string apellido,string contra);
 		string nombree();
@@ -23,6 +24,7 @@ class persona{
 		vector<string> getVector();
 		void setVector(string m);
 		string mensajee();
+		int llave();
 };
 persona::persona(string _nombre,string _apellido,string _contra){
 	nombre=_nombre;
@@ -47,12 +49,17 @@ void persona::setVector(string m){
 string persona::mensajee(){
 	return m;
 }
+int persona::llave(){
+	return lla;
+}
+
 
 vector <persona> lista;
 void registrarse();
 void ingresar();
 string descifrado(string cifrado);
-string cifrado(string mensaje);
+string cifrado(string mensaje,int llave);
+int posi_usuario;
 
 int main(){
 		while(true){
@@ -98,7 +105,8 @@ void ingresar(){
 	cin>>c;
 	for(int i=0;i<lista.size();i++){
 		if(lista[i].nombree()==n&&lista[i].contraa()==c){
-			entro=true;			
+			entro=true;	
+			posi_usuario=i;		
 	 }	
 	}
 	if(entro){
@@ -118,35 +126,29 @@ void ingresar(){
 			    	cin>>posi;
 			    	cout<<"->NOTA: No ingrese espacios, en lugar de ello, coloque un '_'"<<endl<<endl<<"->Ingrese el mensaje: ";
 			    	cin>>mensaje;
-			    	string cifradoo=cifrado(mensaje);
+			    	string cifradoo=cifrado(mensaje,lista[posi].llave());
 			    	lista[posi].setVector(cifradoo);
 			    	cout<<"enviado..."<<endl;
 					break;
 				}
 				case 2:{
-					int posi;
+					int posi,posi2;
 					cout<<"MENSAJES"<<endl;
 					for(int i=0;i<lista.size();i++){
-			   			for(int j=0; lista[i].getVector().size();j++){
-			   				cout<<i<<"."<<lista[i].nombree()<<" mensaje: "<<endl;
-			   				//cout<<lista[i].getVector().get(j);
-						   }
+						cout<<i<<"."<<lista[i].nombree()<<endl;
 			    	}
-					cout<<"->Seleccione el mensaje:";
+			    	cout<<"->Seleccione el usuario:";
 					cin>>posi;
-					
-					
-					
-					
-					
-					
-					
-					
+					for(int j=0; j<lista[posi].getVector().size();j++){
+			   			cout<<j<<".mensaje: "<<lista[posi].getVector()[j]<<endl;
+					}
+					cout<<"->Seleccione el mensaje:";
+					cin>>posi2;
+					cout<<"Mensaje: "<<descifrado(lista[posi].getVector()[posi2])<<endl;
 					break;
-				}
-					
+				}	
 				case 3:{
-					
+				cout<<"Su llave es: "<<lista[posi_usuario].llave()<<endl;
 					break;
 				}
 				case 4:{
@@ -164,8 +166,16 @@ void ingresar(){
 }
 
 
-string cifrado(string mensaje){
+string cifrado(string mensaje,int llave){
 	string cifrado;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	return cifrado; 
