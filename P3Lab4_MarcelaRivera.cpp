@@ -9,13 +9,12 @@ using std::cin;
 using std::endl;
 using std::cout;
 
-
 class persona{
 	private:
 		string nombre,apellido,contra;
 		vector<string> mensajes;
 		string m;
-		int lla=0+rand()%(15-0);
+		int lla=1+rand()%(15-1);
 	public: 
 		persona(string nombre,string apellido,string contra);
 		string nombree();
@@ -44,6 +43,7 @@ vector<string> persona::getVector(){
 	return mensajes;
 }
 void persona::setVector(string m){
+	cout<<"c "<<m<<endl;
 	mensajes.push_back(m);	
 }
 string persona::mensajee(){
@@ -57,11 +57,12 @@ int persona::llave(){
 vector <persona> lista;
 void registrarse();
 void ingresar();
-string descifrado(string cifrado);
+string descifrado(string cifrado,int llave);
 string cifrado(string mensaje,int llave);
 int posi_usuario;
 
 int main(){
+		cout<<"ADVERTENCIA: no se porque pero si la llave es mas de 10 explota xd"<<endl<<"-----------Fin del comunicado--------"<<endl;
 		while(true){
 		int op;
 		srand(time(NULL));
@@ -126,25 +127,27 @@ void ingresar(){
 			    	cin>>posi;
 			    	cout<<"->NOTA: No ingrese espacios, en lugar de ello, coloque un '_'"<<endl<<endl<<"->Ingrese el mensaje: ";
 			    	cin>>mensaje;
-			    	string cifradoo=cifrado(mensaje,lista[posi].llave());
+			    	string cifradoo;
+					cifradoo=cifrado(mensaje,lista[posi].llave());
 			    	lista[posi].setVector(cifradoo);
+			    	cout<<"dsa: "<<cifradoo<<endl;
 			    	cout<<"enviado..."<<endl;
 					break;
 				}
 				case 2:{
-					int posi,posi2;
+					int posii,posi2;
 					cout<<"MENSAJES"<<endl;
 					for(int i=0;i<lista.size();i++){
 						cout<<i<<"."<<lista[i].nombree()<<endl;
 			    	}
 			    	cout<<"->Seleccione el usuario:";
-					cin>>posi;
+					cin>>posii;
 					for(int j=0; j<lista[posi].getVector().size();j++){
-			   			cout<<j<<".mensaje: "<<lista[posi].getVector()[j]<<endl;
+			   			cout<<j<<".mensaje: "<<lista[posii].getVector()[j]<<endl;
 					}
 					cout<<"->Seleccione el mensaje:";
 					cin>>posi2;
-					cout<<"Mensaje: "<<descifrado(lista[posi].getVector()[posi2])<<endl;
+					cout<<"Mensaje: "<<descifrado(lista[posii].getVector()[posi2],lista[posi_usuario].llave())<<endl;
 					break;
 				}	
 				case 3:{
@@ -154,9 +157,7 @@ void ingresar(){
 				case 4:{
 					main();
 					break;
-				}
-					
-					
+				}			
 		}
 	  }	
 	}else{
@@ -165,25 +166,75 @@ void ingresar(){
 	}	
 }
 
-
 string cifrado(string mensaje,int llave){
-	string cifrado;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	return cifrado; 
+	if(llave==0){
+		return mensaje; 	
+	}else{
+		bool aux=true;
+		char c;
+		int valor;
+		string aux2="";
+		for(int i=0;i<mensaje.size();i++){
+			if(i%llave==0){	
+				if(aux==true){
+					aux=false;		
+				}else{
+					aux=true;
+				}
+			}
+			c=mensaje[i];
+			valor=c;
+			if(aux==true){
+				valor=valor-llave;
+				c=(char)valor;
+				aux2+=c;	
+			}else{
+				valor=valor+llave;
+				c=(char)valor;
+				aux2+=c;
+			}
+		}	
+		cout<<aux2<<"   "<<llave<<endl;	
+		mensaje=aux2;
+		cout<<llave<<".cifrado: "<<mensaje<<endl;
+		cifrado(aux2,llave-1);
+	}
 }
-string descifrado(string cifrado){
-	string mensaje;
+
+string descifrado(string cifrado,int llave){
+	if(llave==0){
+		return cifrado;	
+	}else{
+		bool aux=true;
+		char c;
+		int valor;
+		string aux2="";
+		for(int i=0;i<cifrado.size();i++){
+			if(i%llave==0){	
+				if(aux==true){
+					aux=false;		
+				}else{
+					aux=true;
+				}
+			}
+			c=cifrado[i];
+			valor=c;
+			if(aux==true){
+				valor=valor+llave;
+				c=(char)valor;
+				aux2+=c;
+			}else{
+				valor=valor-llave;
+				c=(char)valor;
+				aux2+=c;	
+			}
+		}	
+		cifrado=aux2;
+		cout<<llave<<".desifrado: "<<cifrado<<endl;
+		descifrado(cifrado,llave-1);	
+	}
 	
-	return mensaje;
+	
 	
 }
 
